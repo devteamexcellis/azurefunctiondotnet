@@ -2,7 +2,7 @@ using System.Net;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using excellis.Database;
+using excellis.Data;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +28,6 @@ namespace excellis.Functions
 
             // Example query using EF Core
             var data = await _dbContext.Customers.ToListAsync();
-
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(data);
             

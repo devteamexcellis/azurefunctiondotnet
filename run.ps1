@@ -6,4 +6,4 @@ Remove-Item -Force -Recurse .\bin\Debug\net8.0\.azurefunctions -ErrorAction Sile
 Remove-Item -Force -Recurse .\obj\Debug\net8.0\WorkerExtensions -ErrorAction SilentlyContinue
 
 # Start the function
-func start
+func start --verbose

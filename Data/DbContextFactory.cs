@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 
-namespace excellis.Database
+namespace excellis.Data
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
@@ -20,15 +20,16 @@ namespace excellis.Database
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             
             // Replace with your actual connection string key
-            string connectionString = configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = configuration.GetConnectionString("DefaultConnection");
+            
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string 'DefaultConnection' not found in configuration.");
+            }
             
             // Use the appropriate provider method
-            // For SQL Server:
             optionsBuilder.UseSqlServer(connectionString);
             
-            // For PostgreSQL:
-            // optionsBuilder.UseNpgsql(connectionString);
-
             return new ApplicationDbContext(optionsBuilder.Options);
         }
     }

@@ -1,14 +1,22 @@
-using Microsoft.Extensions.Hosting;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using excellis.Database;
+using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using excellis.Data;
 using System;
-using Microsoft.AspNetCore.Builder;
 
-var builder = Host.CreateApplicationBuilder(args);
+// Create the Functions application builder
+var builder = FunctionsApplication.CreateBuilder(args);
 
-builder.Services.AddFunctionsWorkerDefaults();
+// Configure for Functions web application
+builder.ConfigureFunctionsWebApplication();
+
+// Add Application Insights
+builder.Services
+    .AddApplicationInsightsTelemetryWorkerService()
+    .ConfigureFunctionsApplicationInsights();
 
 // Register your DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -25,5 +33,5 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
-var host = builder.Build();
-host.Run();
+// Build and run the application
+builder.Build().Run();
