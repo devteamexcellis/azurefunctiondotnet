@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using excellis.Models;
@@ -527,8 +527,10 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<ZoneTemp> ZoneTemps { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=netske-desktop;Database=dbcueprdcac02-20241210;User Id=root;Password=root;TrustServerCertificate=True;");
+    {
+        // Connection string is now configured in Program.cs using dependency injection
+        // This method is left empty as the configuration is handled externally
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
